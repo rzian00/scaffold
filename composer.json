@@ -17,5 +17,12 @@
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
         "doctrine/dbal": "^2.6"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Rzian\\Scaffold\\ScaffoldServiceProvider"
+            ]
+        }
     }
 }
