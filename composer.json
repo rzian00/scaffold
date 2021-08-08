@@ -1,0 +1,21 @@
+{
+    "name": "rzian/scaffold",
+    "license": "BSD-2-Clause",
+    "version": "dev-master",
+    "authors": [        
+        {
+            "name": "Ruiz Ian Moreno",
+            "email": "rzian00@yahoo.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"Rzian\\Scaffold\\": "src/"}
+    },
+    "require": {
+        "php": ">=5.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*",
+        "doctrine/dbal": "^2.6"
+    }
+}
