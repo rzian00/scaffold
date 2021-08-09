@@ -2,4 +2,6 @@
 For fast and efficient code standardization.
 
 ### Installation
-> composer require rzian/scaffold --dev
+```
+composer require rzian/scaffold --dev
+```
