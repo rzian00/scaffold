@@ -1,5 +1,5 @@
 # Laravel Scaffold
-For fast and efficient code standardization.
+For fast and efficient code standardization for Laravel.
 
 ### Installation
 ```
