@@ -7,6 +7,8 @@
 
 namespace Rzian\Scaffold\Console\Commands;
 
+use Illuminate\Support\Str;
+
 class ControllerGenerator extends Generator
 {
     /**
@@ -42,9 +44,10 @@ class ControllerGenerator extends Generator
         $varname = lcfirst($class);
         $name = $this->require('name') ?: sprintf('%sController', $class);
         $var = sprintf('$%s', $varname);
-        $this->generateRoutes(['controller' => $name, 'varname' => $varname, 'route' => sprintf('/%s', str_plural($varname))]);
-        $this->generate('controller', 
-            $this->validate($name), 
+        $route = sprintf('/%s', Str::plural($varname));
+        $this->generateRoutes($class, ['controller' => $name, 'varname' => $varname, 'route' => $route]);
+        $this->generate('controller',
+            $this->validate($name),
             compact('name','classmap','class','var','varname','route')
         );
         return $this->info(sprintf(static::INFO_SUCCESS, 'Controller', $name));
@@ -67,7 +70,7 @@ class ControllerGenerator extends Generator
         return $path;
     }
 
-    protected function generateRoutes($params)
+    protected function generateRoutes($name, $params)
     {
         $pattern = [];
         $replacements = [];
@@ -85,6 +88,8 @@ class ControllerGenerator extends Generator
         {
             $this->abort(sprintf(static::ERR_UNDEFINED, 'app/routes', $source));
         }
+
+        $content = sprintf("\n\n/**\n * {$name} routes\n */\n%s\n//*End of {$name} routes*/", $content);
 
         if (! file_put_contents($path, $content, FILE_APPEND | LOCK_EX))
         {

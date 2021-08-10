@@ -1,5 +1,3 @@
-
-
 Route::get('@{ROUTE}', '@{CONTROLLER}@index');
 Route::get('@{ROUTE}/create', '@{CONTROLLER}@create');
 Route::post('@{ROUTE}', '@{CONTROLLER}@store');
