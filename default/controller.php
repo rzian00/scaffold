@@ -11,6 +11,7 @@ use @{CLASSMAP};
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Validator;
 
 class @{NAME} extends Controller
 {
@@ -84,7 +85,7 @@ class @{NAME} extends Controller
      */
     public function store(Request $request)
     {
-        $validator = $request->validate(@{CLASS}::$rules);
+        $validator = Validator::make($this->request->all(), @{CLASS}::$rules);
         if ($validator->fails())
         {
             return response()->json($validator->errors()->all(), Response::HTTP_BAD_REQUEST);
@@ -140,7 +141,7 @@ class @{NAME} extends Controller
      */
     public function update(Request $request, @{CLASS} @{VAR})
     {
-        $validator = $request->validate(@{VAR}->rules);
+        $validator = Validator::make($this->request->all(), @{VAR}->rules);
         if ($validator->fails())
         {
             return response()->json($validator->errors()->all(), Response::HTTP_BAD_REQUEST);
