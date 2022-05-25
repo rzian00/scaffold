@@ -8,6 +8,7 @@
 namespace Rzian\Scaffold;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class Table
 {
@@ -152,7 +153,7 @@ class Table
 	 */
 	public function getPreferredModelName()
 	{
-		return str_singular($this->getName());
+		return Str::singular($this->getName());
 	}
 
 	/**
