@@ -215,7 +215,7 @@ abstract class Generator extends Command
 	 */
 	public function getModelPath()
 	{
-		return base_path('app').DIRECTORY_SEPARATOR;
+		return base_path($this->cleanPath('app/Models')).DIRECTORY_SEPARATOR;
 	}
 
 	/**
