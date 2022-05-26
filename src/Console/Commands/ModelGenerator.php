@@ -36,7 +36,7 @@ class ModelGenerator extends Generator
      */
     public function handle()
     {
-        if (class_exists($class = 'App\\'.($name = $this->argument('name')))
+        if (class_exists($class = 'App\\Models\\'.($name = $this->argument('name')))
             && ! $this->confirm(sprintf(static::INFO_OVERWRITE, 'Model', $class), true))
         {
             exit($this->info(static::INFO_ABORTED));                
