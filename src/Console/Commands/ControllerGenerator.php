@@ -35,7 +35,7 @@ class ControllerGenerator extends Generator
      */
     public function handle()
     {
-        if (! class_exists($classmap = 'App\\'.$this->argument('model')))
+        if (! class_exists($classmap = 'App\\Models\\'.$this->argument('model')))
         {
             $this->abort(sprintf(static::ERR_UNDEFINED, 'Model', $classmap));
         }
