@@ -85,7 +85,7 @@ class @{NAME} extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($this->request->all(), @{CLASS}::$rules);
+        $validator = Validator::make($data = $request->all(), @{CLASS}::$rules);
         if ($validator->fails())
         {
             return response()->json($validator->errors()->all(), Response::HTTP_BAD_REQUEST);
@@ -93,7 +93,7 @@ class @{NAME} extends Controller
 
         try
         {
-            @{CLASS}::create($request->all());
+            @{CLASS}::create($data);
 
             return response()->json(['message' => 'Created successfully'], Response::HTTP_CREATED);
         }
@@ -141,7 +141,7 @@ class @{NAME} extends Controller
      */
     public function update(Request $request, @{CLASS} @{VAR})
     {
-        $validator = Validator::make($this->request->all(), @{VAR}->rules);
+        $validator = Validator::make($data = $request->all(), @{VAR}->rules);
         if ($validator->fails())
         {
             return response()->json($validator->errors()->all(), Response::HTTP_BAD_REQUEST);
@@ -149,7 +149,7 @@ class @{NAME} extends Controller
 
         try
         {
-            @{VAR}->update($request->all());
+            @{VAR}->update($data);
             if (! @{VAR}->isDirty())
             {
                 return response()->json(false, Response::HTTP_NOT_MODIFIED);
