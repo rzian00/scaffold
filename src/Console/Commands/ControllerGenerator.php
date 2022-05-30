@@ -70,6 +70,13 @@ class ControllerGenerator extends Generator
         return $path;
     }
 
+    /**
+     * Generates route of the controller file
+     *
+     * @param string $name
+     * @param array $params 
+     * @return mixed
+     */
     protected function generateRoutes($name, $params)
     {
         $pattern = [];
@@ -82,7 +89,7 @@ class ControllerGenerator extends Generator
         }
 
         $content = preg_replace($pattern, $replacements, $this->getContent('route'));
-        $source = 'web.php';
+        $source = env('SCAFFOLD_ROUTE', 'web').'.php';
         $path = base_path($this->cleanPath('routes')).DIRECTORY_SEPARATOR.$source;
         if (! file_exists($path))
         {
