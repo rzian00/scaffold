@@ -18,50 +18,50 @@ abstract class Generator extends Command
      */
     const DELIMITER = '/\@\{%s\}/';
 
-	/**
+    /**
      * Information message success
      */
     const INFO_SUCCESS = "...%s '%s' generated successfully!";
 
-	/**
+    /**
      * Information message abort
      */
     const INFO_ABORTED = '...Aborted';
 
-	/**
+    /**
      * Information message ask to overwrite
      */
-	const INFO_OVERWRITE = "%s '%s' is already exists. Do you wish to overwrite?";
+    const INFO_OVERWRITE = "%s '%s' is already exists. Do you wish to overwrite?";
 
-	/**
+    /**
      * Error message write permission
      */
-	const ERR_WRITE_PERMISSION = "Error: Unable to write to your application resource path. Please set the correct permission!";
+    const ERR_WRITE_PERMISSION = "Error: Unable to write to your application resource path. Please set the correct permission!";
 
-	/**
+    /**
      * Error message undefined context
      */
     const ERR_UNDEFINED = "Error: Undefined %s '%s'.";
 
-	/**
+    /**
      * Error message required option
      */
     const ERR_REQUIRED = 'Error: Option [--%s] is required when no assigned value!';    
 
-	/**
-	 * The scaffold generation
-	 *
-	 * @param string $scaffold
-	 * @param string $path
-	 * @param array $params
-	 * @return void()
-	 */
+    /**
+     * The scaffold generation
+     *
+     * @param string $scaffold
+     * @param string $path
+     * @param array $params
+     * @return void()
+     */
     public function generate($scaffold, $path, $params = array())
     {        
         $params = array_merge($params, $defaults = [
-	        'user' => env('APP_DEV', gethostname()),
-	        'datetime' => date('m/d/Y h:i A')
-    	]);
+            'user' => env('SCAFFOLD_USER', gethostname()),
+            'datetime' => date('m/d/Y h:i A')
+        ]);
 
         foreach ($params as $key => $value)
         {
@@ -81,7 +81,7 @@ abstract class Generator extends Command
         }
     }   
 
-	/**
+    /**
      * Converts the name to delimited key
      *
      * @param string $name
@@ -111,14 +111,14 @@ abstract class Generator extends Command
      * @return mixed
      */
     public function require($key, $method = 'option')
-    {    	
-    	$value = call_user_func([$this, $method], $key);
-		if (! is_null($value) && empty($value))
+    {       
+        $value = call_user_func([$this, $method], $key);
+        if (! is_null($value) && empty($value))
         {
             $this->abort(sprintf(static::ERR_REQUIRED, $option));
         }
-    	
-    	return $value;
+        
+        return $value;
     }
 
     /**
@@ -129,24 +129,29 @@ abstract class Generator extends Command
      */
     public function abort($message)
     {
-    	$this->error($message);
+        $this->error($message);
 
-    	exit($this->info(self::INFO_ABORTED));
+        exit($this->info(self::INFO_ABORTED));
     }
 
     /**
-	 * Get the scaffold resource
-	 *
-	 * @param string $file
-	 * @return string|void()
-	 */
+     * Get the scaffold resource
+     *
+     * @param string $file
+     * @return string|void()
+     */
     public function getScaffold($file)
     {    
-    	$file .= '.php';
+        $file .= '.php';
         if(empty($name = $this->option('scaffold')))
         {            
             exit($this->error(sprintf(static::ERR_REQUIRED, 'Option scaffold')));
-        }        
+        }
+
+        if ($name == 'default')
+        {
+            $name = env('SCAFFOLD_RESOURCE', $name);
+        }
 
         if (! file_exists($scaffold = $this->getUserScaffoldPath().$name.DIRECTORY_SEPARATOR.$file))
         {
@@ -169,7 +174,7 @@ abstract class Generator extends Command
      */
     public function getTable($name)
     {
-		if (! Table::isExists($name))
+        if (! Table::isExists($name))
         {
             $this->abort(sprintf(static::ERR_UNDEFINED, 'Table', $name));
         }
@@ -188,67 +193,67 @@ abstract class Generator extends Command
         return file_get_contents($this->getScaffold($file));
     }
 
-	/**
-	 * Get the original scaffold path directory
-	 *
-	 * @return string
-	 */
-	public function getScaffoldPath()
-	{
-		return base_path($this->cleanPath('vendor/rzian/scaffold/default')).DIRECTORY_SEPARATOR;
-	}
+    /**
+     * Get the original scaffold path directory
+     *
+     * @return string
+     */
+    public function getScaffoldPath()
+    {
+        return base_path($this->cleanPath('vendor/rzian/scaffold/default')).DIRECTORY_SEPARATOR;
+    }
 
-	/**
-	 * Get the user scaffold path directory
-	 *
-	 * @return string
-	 */
-	public function getUserScaffoldPath()
-	{
-		return base_path($this->cleanPath('resources/scaffold')).DIRECTORY_SEPARATOR;
-	}
+    /**
+     * Get the user scaffold path directory
+     *
+     * @return string
+     */
+    public function getUserScaffoldPath()
+    {
+        return base_path($this->cleanPath('resources/scaffold')).DIRECTORY_SEPARATOR;
+    }
 
-	/**
-	 * Get the model path directory
-	 *
-	 * @return string
-	 */
-	public function getModelPath()
-	{
-		return base_path('app/Models').DIRECTORY_SEPARATOR;
-	}
+    /**
+     * Get the model path directory
+     *
+     * @return string
+     */
+    public function getModelPath()
+    {
+        return base_path('app/Models').DIRECTORY_SEPARATOR;
+    }
 
-	/**
-	 * Get the controller path directory
-	 *
-	 * @return string
-	 */
-	public function getControllerPath()
-	{
-		return base_path($this->cleanPath('app/Http/Controllers')).DIRECTORY_SEPARATOR;
-	}
+    /**
+     * Get the controller path directory
+     *
+     * @return string
+     */
+    public function getControllerPath()
+    {
+        return base_path($this->cleanPath('app/Http/Controllers')).DIRECTORY_SEPARATOR;
+    }
 
-	/**
-	 * Get the view path directory
-	 *
-	 * @return string
-	 */
-	public function getViewPath()
-	{
-		return base_path($this->cleanPath('resources/views')).DIRECTORY_SEPARATOR;
-	}
+    /**
+     * Get the view path directory
+     *
+     * @return string
+     */
+    public function getViewPath()
+    {
+        return base_path($this->cleanPath('resources/views')).DIRECTORY_SEPARATOR;
+    }
 
-	/**
-	 * Cleans the name of the path
-	 *
-	 * @return string
-	 */
-	public function cleanPath($name)
-	{
-		return str_replace('/', DIRECTORY_SEPARATOR, $name);
-	}
+    /**
+     * Cleans the name of the path
+     *
+     * @return string
+     */
+    public function cleanPath($name)
+    {
+        return str_replace('/', DIRECTORY_SEPARATOR, $name);
+    }
 
-	/**
+    /**
      * Get the value of the protected attribute of a object
      *
      * @param string $name
@@ -257,10 +262,10 @@ abstract class Generator extends Command
      */
     public function forceGetAttribute($name, $object)
     {
-    	if (! property_exists($object, $name))
-    	{
-    		return null;
-    	}
+        if (! property_exists($object, $name))
+        {
+            return null;
+        }
 
         $property = new Property(get_class($object), $name);
         $property->setAccessible(true);
