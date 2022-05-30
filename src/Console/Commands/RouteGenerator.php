@@ -47,7 +47,7 @@ class RouteGenerator extends Generator
             $this->abort(sprintf(static::ERR_UNDEFINED, 'Controller', $name));                
         } 
 
-        $source = sprintf('%s.php', $this->option('api') ? 'api' : 'web');
+        $source = sprintf('%s.php', $this->option('api') ? 'api' : env('SCAFFOLD_ROUTE', 'web'));
         $path = base_path($this->cleanPath('routes')).DIRECTORY_SEPARATOR.$source;
         if (! file_exists($path))
         {
