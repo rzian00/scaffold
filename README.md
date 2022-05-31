@@ -11,3 +11,10 @@ Doctrine/dbal
 ```
 composer require rzian/scaffold --dev
 ```
+
+##### Enviroment config (.env file)
+```
+SCAFFOLD_USER=
+SCAFFOLD_RESOURCE=default
+SCAFFOLD_ROUTE=web
+```
