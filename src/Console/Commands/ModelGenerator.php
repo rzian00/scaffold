@@ -91,7 +91,7 @@ class ModelGenerator extends Generator
                     $this->delimiter('name'),
                     $this->delimiter('method')
                 ], [
-                    'App\\'.ucfirst($_table->getPreferredModelName()),
+                    'App\\Models\\'.ucfirst($_table->getPreferredModelName()),
                     $_table->getPrimaryKey(),
                     $key,
                     rtrim($key, '_id')
