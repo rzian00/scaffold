@@ -1,7 +1,7 @@
     /**
      * Get the @{CLASS} associated record
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function @{METHOD}()
     {
