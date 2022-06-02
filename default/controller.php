@@ -141,7 +141,7 @@ class @{NAME} extends Controller
      */
     public function update(Request $request, @{CLASS} @{VAR})
     {
-        $validator = Validator::make($data = $request->all(), @{VAR}->rules);
+        $validator = Validator::make($data = $request->all(), @{CLASS}::$rules);
         if ($validator->fails())
         {
             return response()->json($validator->errors()->all(), Response::HTTP_BAD_REQUEST);
@@ -149,11 +149,13 @@ class @{NAME} extends Controller
 
         try
         {
-            @{VAR}->update($data);
+            @{VAR}->fill($data);
             if (! @{VAR}->isDirty())
             {
                 return response()->json(false, Response::HTTP_NOT_MODIFIED);
             }
+            
+            @{VAR}->save();
 
             return response()->json(['message' => 'Updated successfully']);
         }
