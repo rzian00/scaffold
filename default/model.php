@@ -17,8 +17,15 @@ class @{NAME} extends Model
      * @var string
      */
     protected $table = '@{TABLE}';
+	
+     /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = ['id'];
 
-	/**
+     /**
      * The attributes that are mass assignable
      *
      * @var array
